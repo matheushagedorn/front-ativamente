@@ -1,0 +1,40 @@
+{
+  "hash": "c037ead9",
+  "configHash": "609ab09d",
+  "lockfileHash": "2e1e7790",
+  "browserHash": "e3440e90",
+  "optimized": {
+    "vue": {
+      "src": "../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "3f5d8a1f",
+      "needsInterop": false
+    },
+    "bootstrap/dist/js/bootstrap.js": {
+      "src": "../../node_modules/bootstrap/dist/js/bootstrap.js",
+      "file": "bootstrap_dist_js_bootstrap__js.js",
+      "fileHash": "8a421d23",
+      "needsInterop": true
+    },
+    "sweetalert2/dist/sweetalert2.js": {
+      "src": "../../node_modules/sweetalert2/dist/sweetalert2.js",
+      "file": "sweetalert2_dist_sweetalert2__js.js",
+      "fileHash": "4a961d84",
+      "needsInterop": true
+    },
+    "vue-router": {
+      "src": "../../node_modules/vue-router/dist/vue-router.mjs",
+      "file": "vue-router.js",
+      "fileHash": "fa2f7b41",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-XSWAMETM": {
+      "file": "chunk-XSWAMETM.js"
+    },
+    "chunk-NIBQISYW": {
+      "file": "chunk-NIBQISYW.js"
+    }
+  }
+}
