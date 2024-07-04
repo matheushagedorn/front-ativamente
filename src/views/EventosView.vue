@@ -65,6 +65,7 @@
               v-for="day in days"
               :key="day"
               @click="selectDay(day)"
+              :title="hasEvent(day) ? generateTooltip(day) : ''"
             >
               {{ day }}
               <span v-if="hasEvent(day)" class="event-indicator"></span>
@@ -75,144 +76,152 @@
       </div>
     </div>
 
-    <!-- Modal -->
+   <!-- Modal -->
+          <!-- Modal -->
     <form
-      class="modal fade show"
-      id="eventModal"
-      tabindex="-1"
-      aria-labelledby="eventModalLabel"
-      aria-hidden="true"
-      style="display: none"
-    >
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="eventModalLabel">
-              <i class="fa-solid fa-pen pe-2"></i>{{ selectedDay }} de
-              {{ monthYear }}
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              @click="closeModal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="nomeEvento"
-                    placeholder="Nome do Evento"
-                    v-model="evento.nomeEvento"
-                    required
-                  />
-                  <label for="nomeEvento">Nome do Evento</label>
-                </div>
+    class="modal fade show"
+    id="eventModal"
+    tabindex="-1"
+    aria-labelledby="eventModalLabel"
+    aria-hidden="true"
+    style="display: none"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="eventModalLabel">
+            <i class="fa-solid fa-pen pe-2"></i>{{ selectedDay }} de
+            {{ monthYear }}
+          </h1>
+          <button
+          type="button"
+          class="btn btn-outline-danger mx-3"
+          @click="deleteEvent"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            @click="closeModal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nomeEvento"
+                  placeholder="Nome do Evento"
+                  v-model="evento.nomeEvento"
+                  required
+                />
+                <label for="nomeEvento">Nome do Evento</label>
               </div>
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="time"
-                    class="form-control"
-                    id="horaEvento"
-                    placeholder="Hora do Evento"
-                    v-model="horaEvento"
-                    required
-                  />
-                  <label for="horaEvento">Hora do Evento</label>
-                </div>
-              </div>              
-              <div class="col-md-12">
-                <div class="form-floating">
-                  <textarea
-                    class="form-control"
-                    id="descricaoEvento"
-                    placeholder="Descrição do Evento"
-                    v-model="evento.descricaoEvento"
-                    required
-                  ></textarea>
-                  <label for="descricaoEvento">Descrição do Evento</label>
-                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="time"
+                  class="form-control"
+                  id="horaEvento"
+                  placeholder="Hora do Evento"
+                  v-model="horaEvento"
+                  required
+                />
+                <label for="horaEvento">Hora do Evento</label>
               </div>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="codigoPostal"
-                    placeholder="Código Postal"
-                    maxlength="8"
-                    v-model="evento.localizacaoEvento.codigoPostal"
-                    required
-                  />
-                  <label for="codigoPostal">CEP</label>
-                </div>
+            </div>              
+            <div class="col-md-12">
+              <div class="form-floating">
+                <textarea
+                  class="form-control"
+                  id="descricaoEvento"
+                  placeholder="Descrição do Evento"
+                  v-model="evento.descricaoEvento"
+                  required
+                ></textarea>
+                <label for="descricaoEvento">Descrição do Evento</label>
               </div>
-              <div class="col-md-9">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="endereco"
-                    placeholder="Endereço"
-                    v-model="evento.localizacaoEvento.endereco"
-                    required
-                  />
-                  <label for="endereco">Endereço</label>
-                </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="codigoPostal"
+                  placeholder="Código Postal"
+                  maxlength="8"
+                  v-model="evento.localizacaoEvento.codigoPostal"
+                  required
+                />
+                <label for="codigoPostal">CEP</label>
               </div>
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="cidade"
-                    placeholder="Cidade"
-                    v-model="evento.localizacaoEvento.cidade"
-                    required
-                  />
-                  <label for="cidade">Cidade</label>
-                </div>
+            </div>
+            <div class="col-md-9">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="endereco"
+                  placeholder="Endereço"
+                  v-model="evento.localizacaoEvento.endereco"
+                  required
+                />
+                <label for="endereco">Endereço</label>
               </div>
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="estado"
-                    placeholder="Estado"
-                    v-model="evento.localizacaoEvento.estado"
-                    required
-                  />
-                  <label for="estado">Estado</label>
-                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cidade"
+                  placeholder="Cidade"
+                  v-model="evento.localizacaoEvento.cidade"
+                  required
+                />
+                <label for="cidade">Cidade</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="estado"
+                  placeholder="Estado"
+                  v-model="evento.localizacaoEvento.estado"
+                  required
+                />
+                <label for="estado">Estado</label>
               </div>
             </div>
           </div>
-          <div class="modal-footer d-flex justify-content-between">
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              @click="closeModal"
-            >
-              Cancelar
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-success"
-              @click="submitEvent"
-            >
-              Confirmar
-            </button>
-          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            @click="closeModal"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-success"
+            @click="submitEvent"
+          >
+            Confirmar
+          </button>
         </div>
       </div>
-    </form>
+    </div>
+  </form>
   </div>
 </template>
 
@@ -263,6 +272,8 @@ const updateDays = () => {
   }
 
   blanks.value = Array(firstDay).fill("");
+
+  fetchEventos();
 };
 
 watch(currentDate, updateDays);
@@ -374,7 +385,7 @@ const submitEvent = async () => {
     console.log("Dados do evento antes do envio:");
     console.log("Data do evento:", data);
     console.log("Hora do evento:", hora);
-    
+
     evento.value.participantes = participantesInput.value
       .split(",")
       .map((participante, index) => {
@@ -419,6 +430,7 @@ const submitEvent = async () => {
 
 
 
+
 const resetForm = () => {
   evento.value = {
     nomeEvento: "",
@@ -456,6 +468,22 @@ const getEventoBySelectedDay = () => {
   );
 };
 
+
+const generateTooltip = (day) => {
+  const eventosDoDia = eventosCadastrados.value.filter(evento => {
+    const date = new Date(currentDate.value);
+    date.setDate(day);
+    const selectedDate = moment(date).format("YYYY-MM-DD");
+    return evento.data === selectedDate;
+  });
+  if (eventosDoDia.length > 0) {
+    return eventosDoDia.map(evento => `${evento.nome} - ${evento.hora}`).join('<br>');
+  } else {
+    return '';
+  }
+};
+
+
 const fillEventForm = (eventoData) => {
   if (!eventoData) {
     alert("Nenhum evento encontrado para o dia selecionado");
@@ -463,8 +491,9 @@ const fillEventForm = (eventoData) => {
   }
   evento.value.nomeEvento = eventoData.nome;
   evento.value.descricaoEvento = eventoData.descricao;
-  evento.value.dataEvento = moment(`${eventoData.data}T${eventoData.hora}:00`).format("YYYY-MM-DDTHH:mm");
+  evento.value.dataEvento = moment(`${eventoData.data}T${eventoData.hora}`).format("YYYY-MM-DDTHH:mm");
   horaEvento.value = eventoData.hora.slice(0, 5);
+
   evento.value.localizacaoEvento.endereco = eventoData.local;
   
   console.log("Evento carregado para edição:", evento.value);
@@ -472,6 +501,8 @@ const fillEventForm = (eventoData) => {
 
   openModal();
 };
+
+
 
 
 const editEvent = () => {
@@ -500,6 +531,41 @@ const fetchEventos = async () => {
     console.error("Erro ao buscar eventos:", error);
   }
 };
+
+const deleteEvent = async () => {
+  console.log("ID do evento ao abrir o modal:", evento.value);
+  try {
+    if (!evento.value) {
+      alert("Nenhum evento selecionado para exclusão.");
+      return;
+    }
+
+    if (!confirm("Tem certeza de que deseja excluir este evento?")) {
+      return;
+    }
+
+    console.log("ID do evento para exclusão:", evento.value.id);
+
+    const response = await axios.delete(`http://localhost:8080/evento/${evento.value}`);
+
+    console.log("Resposta do servidor após exclusão:", response);
+
+    eventosCadastrados.value = eventosCadastrados.value.filter(e => e.id !== evento.value);
+    
+    alert("Evento excluído com sucesso!");
+    closeModal();
+    selectedDay.value = null;
+    resetForm();
+  } catch (error) {
+    console.error(
+      "Erro ao excluir o evento:",
+      error.response ? error.response.data : error.message
+    );
+    alert("Erro ao excluir o evento.");
+  }
+};
+
+
 
 onMounted(() => {
   fetchEventos();
@@ -607,4 +673,5 @@ onMounted(() => {
 .has-event {
   position: relative;
 }
+
 </style>
