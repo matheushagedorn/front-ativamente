@@ -4,7 +4,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import PerfilView from './../views/PerfilView.vue'
 import HomeView from "@/views/HomeView.vue";
-import GestaoVeiculosView from './../views/GestaoVeiculosView.vue'
+import EventosView from "@/views/EventosView.vue";
 import GestaoUsuariosView from './../views/GestaoUsuariosView.vue'
 
 const router = createRouter({
@@ -36,9 +36,9 @@ const router = createRouter({
           component: PerfilView
         },
         {
-          path: '/gestao-veiculos', 
-          name: 'gestao-veiculos',
-          component: GestaoVeiculosView
+          path: '/eventos', 
+          name: 'eventos',
+          component: EventosView
         },
         {
           path: '/gestao-usuarios', 

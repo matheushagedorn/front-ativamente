@@ -13,7 +13,7 @@
           class="bi me-2"
           width="48"
           height="48"
-          alt="Carro"
+          alt="AtivaMente"
         />
         <span class="fs-4">AtivaMente</span>
       </router-link>
@@ -103,9 +103,9 @@ const modulos = [
     icon: "fa-solid fa-house",
   },
   {
-    name: "Gestão de veículos",
-    href: "/gestao-veiculos",
-    icon: "fa-solid fa-car",
+    name: "Eventos",
+    href: "/eventos",
+    icon: "fa-regular fa-calendar",
   },
   {
     name: "Gestão de usuários",

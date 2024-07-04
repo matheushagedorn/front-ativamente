@@ -1,10 +1,11 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center w-100 vh-100">
-    <div class="col-10">
-      <TituloPagina
-        titulo="Gestão de usuários"
-        link="/home"
-      />
+  <div class="d-flex flex-column w-100 vh-100 p-3">
+    <TituloPagina
+      class="mb-4"
+      titulo="Gestão de usuários"
+      link="/home"
+    />
+  <div class="col-12 col-md-10 justify-content-center align-items-center w-100 vh-100 p-3 overflow-y: scroll">
       <hr>
       <div class="container-fluid" style="height: 40rem; overflow-y: scroll">
         <table class="table table-light table-striped table-hover">

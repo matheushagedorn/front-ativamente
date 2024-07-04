@@ -29,8 +29,8 @@
                     <input type="email" class="form-control" id="email" placeholder="Email">
                     <label for="email">Email</label>
                 </div>
-                <button class="btn btn-primary mt-4" @click="cadastrar">Cadastre-se</button>
-                <router-link to="/"><button class="btn btn-primary">Voltar para Login</button></router-link>
+                <button class="btn btn-primary text-light mt-4" @click="cadastrar">Cadastre-se</button>
+                <router-link to="/"><button class="btn btn-primary text-light">Voltar para Login</button></router-link>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@ async function cadastrar() {
     if (!matricula && cpf && !nomeCompleto && !email) {
         Swal.fire({
             title: "Erro ao cadastrar usuário!",
-            text: "Verifique as informações e tente novamente.",
+            text: "Verifique as primaryrmações e tente novamente.",
             icon: "error"
         });
         return;
